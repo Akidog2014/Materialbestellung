@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Wichtig für Mobilgeräte -->
+    <title>Materialübersicht per E-Mail</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        h2 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ccc;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0;
+            box-sizing: border-box; /* Verhindert, dass Padding und Border die Gesamtgröße überschreiten */
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%; /* Button füllt die Breite aus */
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Für kleinere Bildschirme */
+        @media (max-width: 600px) {
+            table, th, td {
+                width: 100%;
+                display: block;
+            }
+
+            td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+            }
+
+            button {
+                width: 100%; /* Button passt sich an die Breite des Bildschirms an */
+            }
+        }
+    </style>
+</head>
+<body>
+
+<h2>Materialtabelle</h2>
+
+<form id="materialForm">
+    <table>
+        <thead>
+            <tr>
+                <th>Anzahl</th>
+                <th>Material</th>
+                <th>Bemerkung</th>
+                <th>Standort</th> <!-- Neue Spalte für Standort -->
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+            <tr>
+                <td><input type="number" name="anzahl[]" required></td>
+                <td><input type="text" name="material[]" required></td>
+                <td><input type="text" name="bemerkung[]" required></td>
+                <td>
+                    <!-- Dropdown-Menü für Standort -->
+                    <select name="standort[]">
+                        <option value="HP Emmen">HP Emmen</option>
+                        <option value="PP Reussbühl">PP Reussbühl</option>
+                        <option value="PP Rothenburg">PP Rothenburg</option>
+                    </select>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button type="button" onclick="addRow()">Weitere Zeile hinzufügen</button><br><br>
+    <button type="button" onclick="submitForm()">Abschicken</button>
+</form>
+
+<script>
+    // Funktion zum Hinzufügen einer neuen Zeile
+    function addRow() {
+        let tableBody = document.getElementById('tableBody');
+        let newRow = tableBody.insertRow();
+        
+        let cell1 = newRow.insertCell(0);
+        let cell2 = newRow.insertCell(1);
+        let cell3 = newRow.insertCell(2);
+        let cell4 = newRow.insertCell(3);
+        
+        cell1.innerHTML = '<input type="number" name="anzahl[]" required>';
+        cell2.innerHTML = '<input type="text" name="material[]" required>';
+        cell3.innerHTML = '<input type="text" name="bemerkung[]" required>';
+        cell4.innerHTML = `
+            <select name="standort[]">
+                <option value="HP Emmen">HP Emmen</option>
+                <option value="PP Reussbühl">PP Reussbühl</option>
+                <option value="PP Rothenburg">PP Rothenburg</option>
+            </select>
+        `;
+    }
+
+    // Funktion zum Absenden des Formulars
+    function submitForm() {
+        let form = document.getElementById('materialForm');
+        let tableRows = form.querySelectorAll('tbody tr');
+        
+        let emailContent = "Materialübersicht:\n\n";
+        
+        // Durchlaufen der Zeilen und Erstellen einer Textübersicht
+        tableRows.forEach(row => {
+            let anzahl = row.querySelector('[name="anzahl[]"]').value;
+            let material = row.querySelector('[name="material[]"]').value;
+            let bemerkung = row.querySelector('[name="bemerkung[]"]').value;
+            let standort = row.querySelector('[name="standort[]"]').value;  // Standort auswählen
+            
+            if (anzahl && material) {
+                emailContent += `${anzahl} ${material}, (${bemerkung}), Standort: ${standort}\n`;
+            }
+        });
+
+        let subject = "Materialübersicht";
+        let body = encodeURIComponent(emailContent);
+
+        // E-Mail-Programm öffnen mit Textinhalt
+        window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    }
+</script>
+
+</body>
+</html>
