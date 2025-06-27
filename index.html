@@ -66,18 +66,25 @@
 
 <form id="materialForm">
     <div id="tableBody">
+        <!-- Anzahl zuerst -->
         <div class="form-row">
             <label>Anzahl:</label>
             <input type="number" name="anzahl[]" required>
         </div>
+
+        <!-- Material -->
         <div class="form-row">
             <label>Material:</label>
             <input type="text" name="material[]" required>
         </div>
+
+        <!-- Bemerkung -->
         <div class="form-row">
             <label>Bemerkung:</label>
             <input type="text" name="bemerkung[]" required>
         </div>
+
+        <!-- Standort -->
         <div class="form-row">
             <label>Standort:</label>
             <select name="standort[]">
@@ -97,15 +104,16 @@
     function addRow() {
         let tableBody = document.getElementById('tableBody');
         
+        // Neue Zeile für die Anzahl
         let newRow = document.createElement('div');
         newRow.classList.add('form-row');
-        
         newRow.innerHTML = `
             <label>Anzahl:</label>
             <input type="number" name="anzahl[]" required>
         `;
         tableBody.appendChild(newRow);
 
+        // Neue Zeile für Material
         newRow = document.createElement('div');
         newRow.classList.add('form-row');
         newRow.innerHTML = `
@@ -114,6 +122,7 @@
         `;
         tableBody.appendChild(newRow);
 
+        // Neue Zeile für Bemerkung
         newRow = document.createElement('div');
         newRow.classList.add('form-row');
         newRow.innerHTML = `
@@ -122,6 +131,7 @@
         `;
         tableBody.appendChild(newRow);
 
+        // Neue Zeile für Standort
         newRow = document.createElement('div');
         newRow.classList.add('form-row');
         newRow.innerHTML = `
