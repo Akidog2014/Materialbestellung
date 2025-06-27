@@ -150,7 +150,7 @@
         let form = document.getElementById('materialForm');
         let formRows = form.querySelectorAll('.form-row');
         
-        let emailContent = "Materialübersicht:\n\n";
+        let emailContent = "Materialbestellung:\n\n";
         
         // Durchlaufen der Zeilen und Erstellen einer Textübersicht
         for (let i = 0; i < formRows.length; i += 4) {
@@ -164,7 +164,7 @@
             }
         }
 
-        let subject = "Materialübersicht";
+        let subject = "Materialbestellung";
         let body = encodeURIComponent(emailContent);
 
         // E-Mail-Programm öffnen mit Textinhalt und Empfänger
